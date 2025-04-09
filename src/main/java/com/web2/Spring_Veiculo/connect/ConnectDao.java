@@ -13,8 +13,7 @@ public class ConnectDao {
     private static final String USER = "postgres";
     private static final String PASSWORD = "Icsa@123";
 
-
-    public  static  Connection dataSource() throws ErrorDao{
+    public static Connection dataSource() throws ErrorDao{
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         }catch (Exception e){

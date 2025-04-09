@@ -14,6 +14,7 @@ import java.util.List;
 public class VeiculoDaoClasse implements  VeiculoDaoInterface {
 
     Connection con;
+
     public  VeiculoDaoClasse() {
         try {
             con = ConnectDao.dataSource();

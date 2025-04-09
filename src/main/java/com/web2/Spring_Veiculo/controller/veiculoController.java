@@ -2,6 +2,7 @@ package com.web2.Spring_Veiculo.controller;
 
 import com.web2.Spring_Veiculo.model.dao.ErrorDao;
 import com.web2.Spring_Veiculo.model.dao.VeiculoDaoClasse;
+import com.web2.Spring_Veiculo.model.dao.VeiculoDaoInterface;
 import com.web2.Spring_Veiculo.model.entity.Veiculo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +17,9 @@ import java.util.List;
 public class veiculoController {
 
 
-
-
     @GetMapping("/lista")
     public ModelAndView list(ModelMap model) {
-        VeiculoDaoClasse dao = new VeiculoDaoClasse();
+        VeiculoDaoInterface dao = new VeiculoDaoClasse();
         try {
             model.addAttribute("veiculos", dao.getAllVeiculos());
             dao.sair();
@@ -42,7 +41,7 @@ public class veiculoController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable("id") int id, Model model) {
         try {
-            VeiculoDaoClasse dao = new VeiculoDaoClasse();
+            VeiculoDaoInterface dao = new VeiculoDaoClasse();
             Veiculo veiculo = dao.getVeiculo(id);
             dao.sair();
             model.addAttribute("veiculo", veiculo);
@@ -56,7 +55,7 @@ public class veiculoController {
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute("veiculo") Veiculo veiculo) {
         try {
-            VeiculoDaoClasse dao = new VeiculoDaoClasse();
+            VeiculoDaoInterface dao = new VeiculoDaoClasse();
             if (veiculo.getId() == null) {
                 dao.insertVeiculo(veiculo);
             } else {
@@ -73,7 +72,7 @@ public class veiculoController {
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") int id) {
         try {
-            VeiculoDaoClasse dao = new VeiculoDaoClasse();
+            VeiculoDaoInterface dao = new VeiculoDaoClasse();
             dao.deleteById(id);
             dao.sair();
         } catch (ErrorDao e) {
