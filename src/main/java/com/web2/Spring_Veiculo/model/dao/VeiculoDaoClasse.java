@@ -25,6 +25,19 @@ public class VeiculoDaoClasse implements  VeiculoDaoInterface {
 
     @Override
     public Void insertVeiculo(Veiculo veiculo) throws ErrorDao {
+        try {
+            PreparedStatement psmt = con.prepareStatement(
+                    "INSERT INTO veiculos (marca, modelo, preco, ano_fabricacao) VALUES (?, ?, ?, ?)"
+            );
+            psmt.setString(1, veiculo.getMarca());
+            psmt.setString(2, veiculo.getModelo());
+            psmt.setBigDecimal(3, veiculo.getPreco());
+            psmt.setInt(4, veiculo.getAno());
+
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new ErrorDao(e);
+        }
         return null;
     }
 
@@ -65,17 +78,51 @@ while (rs.next()) {
 
     @Override
     public Veiculo getVeiculo(int id) throws ErrorDao {
-        return null;
+        Veiculo veiculo = null;
+        try {
+            PreparedStatement psmt = con.prepareStatement("SELECT * FROM veiculos WHERE id = ?");
+            psmt.setInt(1, id);
+            ResultSet rs = psmt.executeQuery();
+            if (rs.next()) {
+                veiculo = new Veiculo();
+                veiculo.setId(rs.getInt("id"));
+                veiculo.setMarca(rs.getString("marca"));
+                veiculo.setModelo(rs.getString("modelo"));
+                veiculo.setPreco(rs.getBigDecimal("preco"));
+                veiculo.setAno(rs.getInt("ano_fabricacao"));
+            }
+        } catch (SQLException e) {
+            throw new ErrorDao(e);
+        }
+        return veiculo;
     }
 
     @Override
     public void updateVeiculo(Veiculo veiculo) throws ErrorDao {
-
+        try {
+            PreparedStatement psmt = con.prepareStatement(
+                    "UPDATE veiculos SET marca=?, modelo=?, preco=?, ano_fabricacao=? WHERE id=?"
+            );
+            psmt.setString(1, veiculo.getMarca());
+            psmt.setString(2, veiculo.getModelo());
+            psmt.setBigDecimal(3, veiculo.getPreco());
+            psmt.setInt(4, veiculo.getAno());
+            psmt.setInt(5, veiculo.getId());
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new ErrorDao(e);
+        }
     }
 
     @Override
     public void deleteById(int id) throws ErrorDao {
-
+        try {
+            PreparedStatement psmt = con.prepareStatement("DELETE FROM veiculos WHERE id = ?");
+            psmt.setInt(1, id);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new ErrorDao(e);
+        }
     }
         @Override
         public void sair() throws ErrorDao {
