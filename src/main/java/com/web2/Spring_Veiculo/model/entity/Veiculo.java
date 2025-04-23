@@ -1,17 +1,34 @@
 package com.web2.Spring_Veiculo.model.entity;
 
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Veiculo {
 
-    private Integer id;
+@Entity
+@Table(name = "veiculos")
+public class Veiculo implements Serializable {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String marca;
+
+    @Column(nullable = false)
     private String modelo;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
+
+    @Column(name = "ano_fabricacao", nullable = false)
     private int ano;
 
+    // Construtores
     public Veiculo() {
-
     }
 
     public Veiculo(String marca, String modelo, BigDecimal preco, int ano) {
@@ -21,11 +38,12 @@ public class Veiculo {
         this.ano = ano;
     }
 
-    public Integer getId() {
+    // Getters e Setters (mantidos iguais)
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,7 +79,7 @@ public class Veiculo {
         this.ano = ano;
     }
 
-
+    // toString() mantido igual
     @Override
     public String toString() {
         return "Veiculo{" +
